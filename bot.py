@@ -8,7 +8,7 @@ def main():
         token='7b97acdaf54b766b8569cbcf94534ffa75580a0efe1c85bf8c2874159fa95b7191f3ea1a6292b18292fbd')
     # токен к моему сообществу
     longpoll = VkBotLongPoll(vk_session, '193548634')  # id сообщества
-    word = 'гений'
+    word = ''
     counter = 0
     for event in longpoll.listen():
         if event.type == VkBotEventType.MESSAGE_NEW:
@@ -16,17 +16,17 @@ def main():
             if event.from_chat:
                 if word in event.obj.message['text'].lower():
                     counter += 1
-                if '!бот' in event.obj.message['text']:
+                if '!бот' in event.obj.message['text'].lower():
                     vk.messages.send(user_id=event.obj.message['from_id'],
-                                     message=f"Количество выбранных слов в чате: {counter}\n"
+                                     message=f"Количество слов {word} в чате: {counter}\n"
                                              f"!сброс - сброс слова\n"
                                              f"!чистка - очистить слово\n"
                                              f"!слово - добавить слово",
                                      random_id=random.randint(0, 2 ** 64))
-                if '!сброс' in event.obj.message['text']:
+                if '!сброс' in event.obj.message['text'].lower():
                     word = ''
                     vk.messages.send(user_id=event.obj.message['from_id'],
-                                     message="Слово сброшено",
+                                     message=f"Слово {word} сброшено",
                                      random_id=random.randint(0, 2 ** 64))
                 if '!чистка' in event.obj.message['text'].lower():
                     counter = 0
@@ -36,8 +36,8 @@ def main():
 
                 if '!слово' in event.obj.message['text'].lower():
                     word = event.obj.message['text'].lower()
-                    word = word.replace('!слово', '')
-                    word = word.replace(' ', '')
+                    word = word.replace('!слово', '').lower()
+                    word = word.replace(' ', '').lower()
                     print(word)
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=f"Теперь отслеживается слово {word}",
