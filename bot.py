@@ -35,6 +35,8 @@ def main():
                                      random_id=random.randint(0, 2 ** 64))
 
                 if '!слово' in event.obj.message['text'].lower():
+                    word = ''
+                    counter = 0
                     word = event.obj.message['text'].lower()
                     word = word.replace('!слово', '').lower()
                     word = word.replace(' ', '').lower()
