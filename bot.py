@@ -14,31 +14,34 @@ def main():
         if event.type == VkBotEventType.MESSAGE_NEW:
             vk = vk_session.get_api()
             if event.from_chat:
-                print(event)
+                if word in event.obj.message['text'].lower():
+                    counter += 1
                 if '!бот' in event.obj.message['text']:
-                    vk.messages.send(user_id=event.obj.message['group_id'],
-                                     message=f"Количество выбранных слов в чате: {counter}\n",
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=f"Количество выбранных слов в чате: {counter}\n"
+                                             f"!сброс - сброс слова\n"
+                                             f"!чистка - очистить слово\n"
+                                             f"!слово - добавить слово",
                                      random_id=random.randint(0, 2 ** 64))
                 if '!сброс' in event.obj.message['text']:
                     word = ''
-                    vk.messages.send(user_id=event.obj.message['group_id'],
+                    vk.messages.send(user_id=event.obj.message['from_id'],
                                      message="Слово сброшено",
                                      random_id=random.randint(0, 2 ** 64))
                 if '!чистка' in event.obj.message['text'].lower():
-                    vk.messages.send(user_id=event.obj.message['group_id'],
+                    counter = 0
+                    vk.messages.send(user_id=event.obj.message['from_id'],
                                      message="Статистика очищена",
                                      random_id=random.randint(0, 2 ** 64))
-                    counter = 0
+
                 if '!слово' in event.obj.message['text'].lower():
                     word = event.obj.message['text'].lower()
                     word = word.replace('!слово', '')
                     word = word.replace(' ', '')
                     print(word)
-                    vk.messages.send(user_id=event.obj.message['group_id'],
+                    vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=f"Теперь отслеживается слово {word}",
                                      random_id=random.randint(0, 2 ** 64))
-                if word in event.obj.message['text'].lower():
-                    counter += 1
 
 
 if __name__ == '__main__':
