@@ -9,8 +9,7 @@ import random
 def main():
     vk_session = vk_api.VkApi(
         token='7b97acdaf54b766b8569cbcf94534ffa75580a0efe1c85bf8c2874159fa95b7191f3ea1a6292b18292fbd')
-    # токен к моему сообществу
-    longpoll = VkBotLongPoll(vk_session, '193548634')  # id сообщества
+            longpoll = VkBotLongPoll(vk_session, '193548634')  # id сообщества
     word = ''
     counter = 0
     for event in longpoll.listen():
