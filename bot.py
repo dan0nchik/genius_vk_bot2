@@ -1,6 +1,7 @@
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
+import keep_alive
 
 # чтобы он писал в лс (хотя спрашивают в группе) - user_id=event.obj.message['user_id']
 # чтобы отвечал в лс: if event.from_user:
@@ -8,6 +9,7 @@ storage = {}  # key: peer_id, values: [word, count]
 
 
 def main():
+    keep_alive.keep_alive()
     vk_session = vk_api.VkApi(
         token='7b97acdaf54b766b8569cbcf94534ffa75580a0efe1c85bf8c2874159fa95b7191f3ea1a6292b18292fbd')
     longpoll = VkBotLongPoll(vk_session, '193548634')  # id сообщества
