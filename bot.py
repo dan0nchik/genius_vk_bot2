@@ -2,7 +2,6 @@ import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
 
-
 # чтобы он писал в лс (хотя спрашивают в группе) - user_id=event.obj.message['user_id']
 # чтобы отвечал в лс: if event.from_user:
 storage = {}  # key: peer_id, values: [word, count]
@@ -20,17 +19,19 @@ def main():
                     if event.obj.message['peer_id'] not in storage.keys():
                         storage[event.obj.message['peer_id']] = [None, 0]
                     vk.messages.send(peer_id=event.obj.message['peer_id'],
-                                     message=f"Количество слов {storage.get(event.obj.message['peer_id'], [])[0]} в чате: {storage.get(event.obj.message['peer_id'], [])[1]}\n"
-                                             f"!сброс - сброс слова\n"
-                                             f"!чистка - очистить слово\n"
-                                             f"!слово - добавить слово",
+                                     message=f"Количество слов {storage.get(event.obj.message['peer_id'], [])[0]} "
+                                     f"в чате: {storage.get(event.obj.message['peer_id'], [])[1]}\n"
+                                     f"!сброс - сброс слова\n"
+                                     f"!чистка - очистить слово\n"
+                                     f"!слово - добавить слово",
                                      random_id=random.randint(0, 2 ** 64))
                     print(storage.get(event.obj.message['peer_id'])[0])
                 elif '!сброс' in event.obj.message['text'].lower():
-                    storage.get(event.obj.message['peer_id'])[0] = ''
+
                     vk.messages.send(peer_id=event.obj.message['peer_id'],
-                                     message=f"Слово {word} сброшено",
+                                     message=f"Слово {storage.get(event.obj.message['peer_id'])[0] } сброшено",
                                      random_id=random.randint(0, 2 ** 64))
+                    storage.get(event.obj.message['peer_id'])[0] = ''
                 elif '!чистка' in event.obj.message['text'].lower():
                     storage.get(event.obj.message['peer_id'])[1] = 0
                     vk.messages.send(peer_id=event.obj.message['peer_id'],
@@ -46,8 +47,9 @@ def main():
                                      message=f"Теперь отслеживается слово {word}",
                                      random_id=random.randint(0, 2 ** 64))
                 elif storage.get(event.obj.message['peer_id'], [''])[0] in event.obj.message['text'].lower():
-                    storage.get(event.obj.message['peer_id'])[1] += event.obj.message['text'].lower().count(storage.get(event.obj.message['peer_id'], [])[0])
-                
+                    storage.get(event.obj.message['peer_id'])[1] += event.obj.message['text'].lower().count(
+                        storage.get(event.obj.message['peer_id'], [])[0])
+
 
 if __name__ == '__main__':
     main()
