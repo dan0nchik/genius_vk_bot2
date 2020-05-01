@@ -2,7 +2,6 @@ import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
 import keep_alive
-
 # чтобы он писал в лс (хотя спрашивают в группе) - user_id=event.obj.message['user_id']
 # чтобы отвечал в лс: if event.from_user:
 storage = {}  # key: peer_id, values: [word, count]
@@ -17,6 +16,7 @@ def main():
         if event.type == VkBotEventType.MESSAGE_NEW:
             vk = vk_session.get_api()
             if event.from_chat:
+              try:
                 if '!бот' in event.obj.message['text'].lower():
                     if event.obj.message['peer_id'] not in storage.keys():
                         storage[event.obj.message['peer_id']] = [None, 0]
@@ -48,9 +48,11 @@ def main():
                     vk.messages.send(peer_id=event.obj.message['peer_id'],
                                      message=f"Теперь отслеживается слово {word}",
                                      random_id=random.randint(0, 2 ** 64))
-                elif storage.get(event.obj.message['peer_id'], [''])[0] in event.obj.message['text'].lower():
+                elif storage.get(event.obj.message['peer_id'], ["", 0])[0] in event.obj.message['text'].lower():
                     storage.get(event.obj.message['peer_id'])[1] += event.obj.message['text'].lower().count(
-                        storage.get(event.obj.message['peer_id'], [])[0])
+                        storage.get(event.obj.message['peer_id'], [''])[0])
+              except TypeError:
+                pass
 
 
 if __name__ == '__main__':
