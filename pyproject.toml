@@ -6,8 +6,8 @@ authors = ["Daniel Khromov <danielkhromov@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-flask = "^1.1.2"
-vk-api = "^11.9.0"
+flask = "^1.1"
+vk-api = "^11.8"
 
 [tool.poetry.dev-dependencies]
 
