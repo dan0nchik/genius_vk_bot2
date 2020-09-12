@@ -10,7 +10,7 @@ storage = {}  # key: peer_id, values: [word, count]
 def main():
     keep_alive.keep_alive()
     vk_session = vk_api.VkApi(
-        token='7b97acdaf54b766b8569cbcf94534ffa75580a0efe1c85bf8c2874159fa95b7191f3ea1a6292b18292fbd')
+        token='48886d7a77f5ef0fdd4861909d28224e64d8d4b4b9409d155c86a91c471d12c4fee60512f565dc659b7ff')
     longpoll = VkBotLongPoll(vk_session, '193548634')  # id сообщества
     for event in longpoll.listen():
         if event.type == VkBotEventType.MESSAGE_NEW:
