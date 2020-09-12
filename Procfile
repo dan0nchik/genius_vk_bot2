@@ -1,1 +1,1 @@
-web: gunicorn keep_alive:app
+web: python3 bot.py
