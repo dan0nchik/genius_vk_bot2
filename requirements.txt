@@ -1,0 +1,3 @@
+flask
+vk_api
+threading
