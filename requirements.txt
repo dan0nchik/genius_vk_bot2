@@ -1,2 +1,3 @@
 flask
 vk_api
+gunicorn
