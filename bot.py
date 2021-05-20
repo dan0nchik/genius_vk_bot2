@@ -10,7 +10,7 @@ storage = {}  # key: peer_id, values: [word, count]
 def main():
     keep_alive.keep_alive()
     vk_session = vk_api.VkApi(
-        token='48886d7a77f5ef0fdd4861909d28224e64d8d4b4b9409d155c86a91c471d12c4fee60512f565dc659b7ff')
+        token='ee509d4403131362a3fff3e34b4bfc1f9ca6ef33913bf1418fdc93227ed19f1e282c5a2ad3f44bfe67883')
     longpoll = VkBotLongPoll(vk_session, '193548634')  # id сообщества
     for event in longpoll.listen():
         if event.type == VkBotEventType.MESSAGE_NEW:
@@ -19,7 +19,7 @@ def main():
               try:
                 if '!бот' in event.obj.message['text'].lower():
                     if event.obj.message['peer_id'] not in storage.keys():
-                        storage[event.obj.message['peer_id']] = [None, 0]
+                        storage[event.obj.message['peer_id']] = ["", 0]
                     vk.messages.send(peer_id=event.obj.message['peer_id'],
                                      message=f"Количество слов {storage.get(event.obj.message['peer_id'], [])[0]} "
                                      f"в чате: {storage.get(event.obj.message['peer_id'], [])[1]}\n"
